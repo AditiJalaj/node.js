@@ -1,5 +1,6 @@
 const http = require('http');
 const fs = require('fs');
+const EventEmitter = require('events')
 
 //creating a server instance which has callback as arg that runs everytime a request comes in
 const server = http.createServer((req, res) => {
@@ -30,7 +31,21 @@ const server = http.createServer((req, res) => {
   });
 });
 
+const event = new EventEmitter()
+
+event.on('sayMyName', () => {
+  console.log('your name is aditi')
+})
+event.emit('sayMyName')
+
+//passing event argumnets
+event.on('checkPg', (sc, msg) => {
+  console.log(`status code is ${sc} and msg is ${msg}`)
+})
+
+event.emit('checkPg', 200, 'ok')
+
 //3rd arg cb fires when we are listening for requests
-server.listen(5000, 'localhost', () => {
-  console.log('listening for requests on port 5000');
+server.listen(5001, 'localhost', () => {
+  console.log('listening for requests on port 5001');
 });
